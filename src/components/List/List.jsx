@@ -4,23 +4,10 @@ import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, 
 import PlaceDetails from '../PlaceDetails/PlaceDetails';
 
 import useStyles from './styles';
+import { useEffect } from 'react';
 
-const List = () => {
+const List = ({places, type, setType, rating, setRating}) => {
     const classes = useStyles();
-    const [type, setType] = useState('resturants');
-    const [rating, setRating] = useState('');
-
-    const places = [
-        { name: 'Best Tourist Place'},
-        { name: 'Best Fish'},
-        { name: 'Best Steak'},
-        { name: 'Best Tourist Place'},
-        { name: 'Best Fish'},
-        { name: 'Best Steak'},
-        { name: 'Best Tourist Place'},
-        { name: 'Best Fish'},
-        { name: 'Best Steak'},
-    ];
     
     return(
         <div className = {classes.container}>
@@ -29,7 +16,7 @@ const List = () => {
             <FormControl className = {classes.formControl}>
                 <InputLabel>Type</InputLabel>
                 <Select value = {type} onChange = {(e) => setType(e.target.value)}>
-                    <MenuItem value = "resturants">Resturants</MenuItem>
+                    <MenuItem value = "restaurants">Restaurants</MenuItem>
                     <MenuItem value = "hotels">Hotels</MenuItem>
                     <MenuItem value = "attractions">Attractions</MenuItem>
                 </Select>
