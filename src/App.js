@@ -12,6 +12,8 @@ const App = () => {
     const [coordinates, setCoordinates] = useState({});
     const [bounds, setBounds] = useState({});
 
+    const [filterPlaces, setFilter] = useState([]);
+
     const [type, setType] = useState("restaurants");
     const [rating, setRating] = useState('');
 
@@ -23,11 +25,19 @@ const App = () => {
         })
     }, []); 
 
-    //used to update coordinate data based on map location
+    //used to filter ratings
+    useEffect(() => {
+        const filterPlaces = places.filter((place) => place.rating > rating);
+        
+        setFilter(filterPlaces);
+    }, [rating]);
+
+    //used to update coordinate data based on map location and for location type 
     useEffect(() => {
         getPlacesData(type, bounds.sw, bounds.ne)
             .then((data) => {
                 setPlaces(data);
+                setFilter([]);
             })
     }, [type, coordinates, bounds]);
 
@@ -38,7 +48,7 @@ const App = () => {
             <Grid container spacing = {3} style = {{ width: '100%' }}>
                 <Grid item xs = {12} md = {4}>
                     <List 
-                        places = {places}
+                        places = {filterPlaces.length ? filterPlaces: places}
                         type = {type}
                         setType = {setType}
                         rating = {rating}
@@ -50,7 +60,7 @@ const App = () => {
                         setCoordinates = {setCoordinates}
                         setBounds = {setBounds}
                         coordinates = {coordinates}
-                        places = {places}
+                        places = {filterPlaces.length ? filterPlaces: places}
                     />
                 </Grid>
             </Grid>
